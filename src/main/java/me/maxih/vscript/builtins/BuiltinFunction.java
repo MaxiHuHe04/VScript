@@ -1,6 +1,6 @@
 package me.maxih.vscript.builtins;
 
-import me.maxih.vscript.interpreter.FunctionSpace;
+import me.maxih.vscript.memory.FunctionSpace;
 
 import java.util.function.Function;
 

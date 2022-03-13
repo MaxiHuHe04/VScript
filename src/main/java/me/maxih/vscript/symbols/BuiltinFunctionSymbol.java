@@ -1,7 +1,7 @@
 package me.maxih.vscript.symbols;
 
 import me.maxih.vscript.builtins.BuiltinFunction;
-import me.maxih.vscript.interpreter.FunctionSpace;
+import me.maxih.vscript.memory.FunctionSpace;
 
 import java.util.function.Function;
 

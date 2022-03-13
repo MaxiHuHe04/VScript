@@ -1,4 +1,4 @@
-package me.maxih.vscript.interpreter;
+package me.maxih.vscript.memory;
 
 public class BlockSpace extends MemorySpace {
     MemorySpace parent;

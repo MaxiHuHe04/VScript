@@ -1,4 +1,4 @@
-package me.maxih.vscript.interpreter;
+package me.maxih.vscript.memory;
 
 import me.maxih.vscript.symbols.FunctionSymbol;
 

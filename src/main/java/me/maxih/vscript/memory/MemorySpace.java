@@ -1,4 +1,4 @@
-package me.maxih.vscript.interpreter;
+package me.maxih.vscript.memory;
 
 import java.util.HashMap;
 import java.util.Map;
