@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.CharStreams;
 import me.maxih.vscript.exceptions.AnalyzeError;
 import me.maxih.vscript.exceptions.ProgramError;
 
+import java.io.Console;
 import java.util.Scanner;
 
 public class VScriptMain {
@@ -30,6 +31,7 @@ public class VScriptMain {
     }
 
     public static void repl() {
+        Console console = System.console();
         Scanner scanner = new Scanner(System.in);
         Interpreter interpreter = new Interpreter(true);
 
@@ -38,7 +40,7 @@ public class VScriptMain {
 
             System.out.print("> ");
             while (true) {
-                String line = scanner.nextLine();
+                String line = console != null ? console.readLine() : scanner.nextLine();
                 if (builder.isEmpty() && line.strip().equals("/exit")) return;
                 builder.append(line).append("\n");
                 if (line.equals("")) break;
