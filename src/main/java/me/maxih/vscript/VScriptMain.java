@@ -1,13 +1,17 @@
 package me.maxih.vscript;
 
-import me.maxih.vscript.exceptions.SyntaxError;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import me.maxih.vscript.exceptions.AnalyzeError;
 import me.maxih.vscript.exceptions.ProgramError;
+import me.maxih.vscript.exceptions.SyntaxError;
+import me.maxih.vscript.gen.VScriptLexer;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Token;
 
 import java.io.Console;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class VScriptMain {
     public static void main(String[] args) {
@@ -30,6 +34,26 @@ public class VScriptMain {
         }
     }
 
+    public static boolean bracketsRemaining(String code) {
+        VScriptLexer lexer = new VScriptLexer(CharStreams.fromString(code));
+        lexer.removeErrorListeners();
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        tokens.fill();
+        Stack<String> brackets = new Stack<>();
+        for (Token token : tokens.getTokens()) {
+            String t = token.getText();
+            switch (t) {
+                case "(" -> brackets.push(")");
+                case "[" -> brackets.push("]");
+                case "{" -> brackets.push("}");
+                case ")", "]", "}" -> {
+                    if (brackets.isEmpty() || !brackets.pop().equals(t)) return false;  // Mismatched closing brackets
+                }
+            }
+        }
+        return !brackets.isEmpty();
+    }
+
     public static void repl() {
         Console console = System.console();
         Scanner scanner = new Scanner(System.in);
@@ -39,12 +63,11 @@ public class VScriptMain {
             StringBuilder builder = new StringBuilder();
 
             System.out.print("> ");
-            while (true) {
+            do {
                 String line = console != null ? console.readLine() : scanner.nextLine();
                 if (builder.isEmpty() && line.strip().equals("/exit")) return;
                 builder.append(line).append("\n");
-                if (line.equals("")) break;
-            }
+            } while (bracketsRemaining(builder.toString()));
 
             CharStream codeStream = CharStreams.fromString(builder.toString());
 
